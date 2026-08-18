@@ -1,0 +1,11 @@
+{
+  "name": "EduStream LMS",
+  "description": "A comprehensive Java Spring Boot & React Learning Management System (LMS) with MySQL backend architecture, student/instructor dashboards, video player, and IntelliJ IDEA project structure.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

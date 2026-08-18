@@ -1,0 +1,130 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user of the platform (student, instructor, or admin)",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "role": { "type": "string", "enum": ["student", "instructor", "admin"] },
+        "profilePic": { "type": "string" },
+        "bio": { "type": "string" },
+        "enrolledCourses": { "type": "array", "items": { "type": "string" } },
+        "wishlist": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Course": {
+      "title": "Course",
+      "description": "A course offered on the platform",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "thumbnail": { "type": "string" },
+        "price": { "type": "number" },
+        "category": { "type": "string" },
+        "instructorId": { "type": "string" },
+        "instructorName": { "type": "string" },
+        "rating": { "type": "number" },
+        "reviewsCount": { "type": "number" },
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "title": { "type": "string" },
+              "description": { "type": "string" },
+              "lectures": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string" },
+                    "title": { "type": "string" },
+                    "externalLink": { "type": "string" },
+                    "duration": { "type": "number" },
+                    "isPreview": { "type": "boolean" },
+                    "type": { "type": "string", "enum": ["video", "pdf", "link"] }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "syllabus": { "type": "array" },
+        "status": { "type": "string", "enum": ["draft", "published", "rejected"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "instructorId", "status"]
+    },
+    "Enrollment": {
+      "title": "Enrollment",
+      "description": "A student's enrollment in a course",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "courseId": { "type": "string" },
+        "progress": { "type": "object" },
+        "enrolledAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "courseId"]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "A review for a course",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "courseId": { "type": "string" },
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "rating": { "type": "number" },
+        "comment": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["courseId", "userId", "rating"]
+    },
+    "Progress": {
+      "title": "Progress",
+      "description": "A student's progress in a course",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "courseId": { "type": "string" },
+        "completedLectures": { "type": "array", "items": { "type": "string" } },
+        "progressPercentage": { "type": "number" },
+        "lastAccessedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "courseId"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": {
+      "schema": "User",
+      "description": "User profiles"
+    },
+    "/courses/{courseId}": {
+      "schema": "Course",
+      "description": "Course details"
+    },
+    "/enrollments/{enrollmentId}": {
+      "schema": "Enrollment",
+      "description": "Student enrollments"
+    },
+    "/reviews/{reviewId}": {
+      "schema": "Review",
+      "description": "Course reviews"
+    },
+    "/progress/{progressId}": {
+      "schema": "Progress",
+      "description": "Student course progress"
+    }
+  }
+}
